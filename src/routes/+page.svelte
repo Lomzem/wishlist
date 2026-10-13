@@ -5,10 +5,18 @@
 	import { Badge } from '$lib/components/ui/badge';
 	import * as Card from '$lib/components/ui/card';
 	import { wishList } from '$lib/wish-list';
+
+	const description = 'Gift ideas for Lawjay this Christmas, with photos and notes.';
 </script>
 
 <svelte:head>
 	<title>Lawjay's Wish List</title>
+	<meta name="description" content={description} />
+	<!-- Open Graph: the title and description chat apps like Discord show when the link is shared. -->
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://lomzem.github.io/wishlist/" />
+	<meta property="og:title" content="Lawjay's Christmas Wish List 🎄" />
+	<meta property="og:description" content={description} />
 </svelte:head>
 
 <main class="mx-auto max-w-xl px-6 pt-16 pb-12 sm:pt-24">

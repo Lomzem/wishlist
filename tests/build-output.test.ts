@@ -29,6 +29,18 @@ describe('page', () => {
 		expect(text(document.querySelector('h1'))).toBe("Lawjay's Christmas Wish List 🎄");
 		expect(text(document.querySelector('title'))).toBe("Lawjay's Wish List");
 	});
+
+	test('has Open Graph tags for link previews in Discord and other chat apps', () => {
+		const og = (property: string) =>
+			document.querySelector(`meta[property="og:${property}"]`)?.getAttribute('content');
+		expect(og('type')).toBe('website');
+		expect(og('url')).toBe('https://lomzem.github.io/wishlist/');
+		expect(og('title')).toBe("Lawjay's Christmas Wish List 🎄");
+		expect(og('description')).toBeTruthy();
+		expect(document.querySelector('meta[name="description"]')?.getAttribute('content')).toBe(
+			og('description')
+		);
+	});
 });
 
 describe('Wish List', () => {
