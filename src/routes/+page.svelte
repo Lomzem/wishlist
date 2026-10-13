@@ -17,7 +17,18 @@
 
 	<ul class="mt-10 space-y-5">
 		{#each wishList as wish, i (i)}
-			<li>{wish.name}</li>
+			<li class="flex items-center gap-4">
+				{#if wish.image}
+					<!-- White in both modes, so product photos shot on white don't look broken in dark mode. -->
+					<enhanced:img
+						src={wish.image}
+						alt={wish.name}
+						sizes="96px"
+						class="size-24 shrink-0 rounded-xl border bg-white object-contain p-1"
+					/>
+				{/if}
+				{wish.name}
+			</li>
 		{/each}
 	</ul>
 </main>

@@ -37,6 +37,18 @@ describe('Wish List', () => {
 		expect(items.length).toBe(wishList.length);
 		items.forEach((item, i) => expect(text(item)).toContain(wishList[i].name));
 	});
+
+	test('only Wishes with an image show one, described by the Wish name', () => {
+		wishItems().forEach((item, i) => {
+			const images = item.querySelectorAll('img');
+			if (wishList[i].image) {
+				expect(images.length).toBe(1);
+				expect(images[0].getAttribute('alt')).toBe(wishList[i].name);
+			} else {
+				expect(images.length).toBe(0);
+			}
+		});
+	});
 });
 
 describe('base path', () => {
@@ -64,7 +76,7 @@ describe('base path', () => {
 		expect(document.querySelector('link[rel~="icon"]')).not.toBeNull();
 	});
 
-	test('every stylesheet, script, and icon URL starts with /wishlist/', () => {
+	test('every stylesheet, script, icon, and image URL starts with /wishlist/', () => {
 		const urls = pageUrls();
 		expect(urls.length).toBeGreaterThan(0);
 		for (const url of urls) expect(url).toStartWith(BASE);

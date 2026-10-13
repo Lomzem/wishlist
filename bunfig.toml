@@ -1,0 +1,3 @@
+[test]
+# Lets the build-output test import the Wish data, which imports images through enhanced-img.
+preload = ["./tests/stub-enhanced-images.ts"]
