@@ -14,6 +14,8 @@ export type Wish = {
 	 * `?enhanced&w=192;96` query, which sizes it for the 96px tile at 1x and 2x.
 	 */
 	image?: Picture;
+	/** What Lawjay wants gift-givers to know. A blank line starts a new paragraph. See **Note** in GLOSSARY.md. */
+	note?: string;
 };
 
 /** The Wish List, in display order. Edit this array to change the published page. */
@@ -22,7 +24,10 @@ export const wishList: Wish[] = [
 		name: 'Placeholder wish one',
 		link: 'https://example.com/',
 		image: giftBox,
-		reallyWant: true
+		reallyWant: true,
+		note: `Placeholder note about wish one. Any colour is fine.
+
+A second paragraph with more detail, long enough to wrap onto another line on a narrow phone.`
 	},
 	{ name: 'Placeholder wish two', image: waterBottle },
 	{ name: 'Placeholder wish three' }

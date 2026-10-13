@@ -58,15 +58,29 @@ describe('Wish List', () => {
 		});
 	});
 
-	test("a linked Wish's name is an anchor to its link; an unlinked Wish has no anchor", () => {
+	test("a Wish's Note shows as its paragraphs, outside any link; a Wish without one shows none", () => {
+		const entries = wishElements();
+		entries.forEach((entry, i) => {
+			const paragraphs = [...entry.querySelectorAll('p')];
+			const expected =
+				wishList[i].note?.split(/\n\s*\n/).map((p) => p.replace(/\s+/g, ' ').trim()) ?? [];
+			expect(paragraphs.map(text)).toEqual(expected);
+			for (const p of paragraphs) expect(p.closest('a')).toBeNull();
+		});
+	});
+
+	test("a linked Wish's name and tile go to its link, with only the name exposed; an unlinked Wish has no anchor", () => {
 		const entries = wishElements();
 		entries.forEach((entry, i) => {
 			const { name, link } = wishList[i];
-			const anchors = entry.querySelectorAll('a');
+			const anchors = [...entry.querySelectorAll('a')];
 			if (link) {
-				expect(anchors.length).toBe(1);
-				expect(anchors[0].getAttribute('href')).toBe(link);
-				expect(text(anchors[0])).toBe(name);
+				for (const anchor of anchors) expect(anchor.getAttribute('href')).toBe(link);
+				const exposed = anchors.filter((a) => a.getAttribute('aria-hidden') !== 'true');
+				expect(exposed.map(text)).toEqual([name]);
+				const hidden = anchors.filter((a) => a.getAttribute('aria-hidden') === 'true');
+				expect(hidden.length).toBe(1);
+				expect(hidden[0].getAttribute('tabindex')).toBe('-1');
 			} else {
 				expect(anchors.length).toBe(0);
 			}
