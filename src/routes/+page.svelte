@@ -6,7 +6,7 @@
 	import * as Card from '$lib/components/ui/card';
 	import { wishList } from '$lib/wish-list';
 
-	const description = 'Gift ideas for Lawjay this Christmas, with photos and notes.';
+	const description = 'Gift ideas for Lawjay this Christmas.';
 </script>
 
 <svelte:head>
