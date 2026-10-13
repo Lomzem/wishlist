@@ -11,8 +11,8 @@
 
 <main class="mx-auto max-w-xl px-6 pt-16 pb-12 sm:pt-24">
 	<header class="flex items-start justify-between gap-4">
-		<h1 class="pt-1 text-2xl leading-tight font-medium tracking-tight">
-			Lawjay's Christmas Wish List 🎄
+		<h1 class="pt-1 text-2xl leading-tight font-medium tracking-tight text-balance">
+			Lawjay's Christmas <span class="whitespace-nowrap">Wish List 🎄</span>
 		</h1>
 		<ThemeToggle />
 	</header>
@@ -29,7 +29,7 @@
 						class="size-24 max-w-none rounded-xl border bg-white object-contain p-1"
 					/>
 				{/if}
-				<div>
+				<div class="flex flex-wrap items-center gap-x-2 gap-y-1">
 					{#if wish.link}
 						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- external purchase link -->
 						<a href={wish.link} class="underline underline-offset-4">{wish.name}</a>
@@ -37,8 +37,8 @@
 						{wish.name}
 					{/if}
 					{#if wish.reallyWant}
-						<Badge class="ml-2 align-middle">
-							<StarIcon data-icon="inline-start" aria-hidden="true" />
+						<Badge>
+							<StarIcon data-icon="inline-start" class="fill-current" aria-hidden="true" />
 							really want!
 						</Badge>
 					{/if}
