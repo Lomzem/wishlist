@@ -20,7 +20,12 @@
 	<ul class="mt-10 space-y-5">
 		{#each wishList as wish, i (i)}
 			<li>
-				{wish.name}
+				{#if wish.link}
+					<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- external purchase link -->
+					<a href={wish.link} class="underline underline-offset-4">{wish.name}</a>
+				{:else}
+					{wish.name}
+				{/if}
 				{#if wish.reallyWant}
 					<Badge class="ml-2 align-middle">
 						<StarIcon data-icon="inline-start" aria-hidden="true" />

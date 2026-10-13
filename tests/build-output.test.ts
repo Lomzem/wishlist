@@ -46,6 +46,30 @@ describe('Wish List', () => {
 			expect(text(item).includes('really want!')).toBe(!!wishList[i].reallyWant);
 		});
 	});
+
+	test("a linked Wish's name is an anchor to its link; an unlinked Wish has no anchor", () => {
+		const items = wishItems();
+		expect(wishList.some((wish) => wish.link)).toBe(true);
+		expect(wishList.some((wish) => !wish.link)).toBe(true);
+		items.forEach((item, i) => {
+			const { name, link } = wishList[i];
+			const anchors = item.querySelectorAll('a');
+			if (link) {
+				expect(anchors.length).toBe(1);
+				expect(anchors[0].getAttribute('href')).toBe(link);
+				expect(text(anchors[0])).toBe(name);
+			} else {
+				expect(anchors.length).toBe(0);
+			}
+		});
+	});
+
+	test('no purchase link opens in a new tab', () => {
+		for (const item of wishItems()) {
+			for (const anchor of item.querySelectorAll('a'))
+				expect(anchor.hasAttribute('target')).toBe(false);
+		}
+	});
 });
 
 describe('base path', () => {
