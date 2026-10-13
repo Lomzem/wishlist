@@ -1,5 +1,7 @@
 <script lang="ts">
+	import StarIcon from '@lucide/svelte/icons/star';
 	import ThemeToggle from '$lib/components/theme-toggle.svelte';
+	import { Badge } from '$lib/components/ui/badge';
 	import { wishList } from '$lib/wish-list';
 </script>
 
@@ -17,7 +19,15 @@
 
 	<ul class="mt-10 space-y-5">
 		{#each wishList as wish, i (i)}
-			<li>{wish.name}</li>
+			<li>
+				{wish.name}
+				{#if wish.reallyWant}
+					<Badge class="ml-2 align-middle">
+						<StarIcon data-icon="inline-start" aria-hidden="true" />
+						really want!
+					</Badge>
+				{/if}
+			</li>
 		{/each}
 	</ul>
 </main>

@@ -37,6 +37,15 @@ describe('Wish List', () => {
 		expect(items.length).toBe(wishList.length);
 		items.forEach((item, i) => expect(text(item)).toContain(wishList[i].name));
 	});
+
+	test('exactly the Really Want items show the "really want!" badge', () => {
+		const items = wishItems();
+		expect(wishList.some((wish) => wish.reallyWant)).toBe(true);
+		expect(wishList.some((wish) => !wish.reallyWant)).toBe(true);
+		items.forEach((item, i) => {
+			expect(text(item).includes('really want!')).toBe(!!wishList[i].reallyWant);
+		});
+	});
 });
 
 describe('base path', () => {
