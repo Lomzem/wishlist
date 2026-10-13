@@ -39,7 +39,10 @@ describe('Wish List', () => {
 	});
 
 	test('only Wishes with an image show one, described by the Wish name', () => {
-		wishItems().forEach((item, i) => {
+		const items = wishItems();
+		expect(wishList.some((wish) => wish.image)).toBe(true);
+		expect(wishList.some((wish) => !wish.image)).toBe(true);
+		items.forEach((item, i) => {
 			const images = item.querySelectorAll('img');
 			if (wishList[i].image) {
 				expect(images.length).toBe(1);
@@ -48,6 +51,39 @@ describe('Wish List', () => {
 				expect(images.length).toBe(0);
 			}
 		});
+	});
+
+	test('exactly the Really Want items show the "really want!" badge', () => {
+		const items = wishItems();
+		expect(wishList.some((wish) => wish.reallyWant)).toBe(true);
+		expect(wishList.some((wish) => !wish.reallyWant)).toBe(true);
+		items.forEach((item, i) => {
+			expect(text(item).includes('really want!')).toBe(!!wishList[i].reallyWant);
+		});
+	});
+
+	test("a linked Wish's name is an anchor to its link; an unlinked Wish has no anchor", () => {
+		const items = wishItems();
+		expect(wishList.some((wish) => wish.link)).toBe(true);
+		expect(wishList.some((wish) => !wish.link)).toBe(true);
+		items.forEach((item, i) => {
+			const { name, link } = wishList[i];
+			const anchors = item.querySelectorAll('a');
+			if (link) {
+				expect(anchors.length).toBe(1);
+				expect(anchors[0].getAttribute('href')).toBe(link);
+				expect(text(anchors[0])).toBe(name);
+			} else {
+				expect(anchors.length).toBe(0);
+			}
+		});
+	});
+
+	test('no purchase link opens in a new tab', () => {
+		for (const item of wishItems()) {
+			for (const anchor of item.querySelectorAll('a'))
+				expect(anchor.hasAttribute('target')).toBe(false);
+		}
 	});
 });
 

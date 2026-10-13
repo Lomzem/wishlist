@@ -5,6 +5,10 @@ import waterBottle from './assets/wish-images/placeholder-water-bottle.png?enhan
 /** One thing Lawjay would like to receive. See GLOSSARY.md. */
 export type Wish = {
 	name: string;
+	/** Shows the "really want!" badge. See **Really Want** in GLOSSARY.md. */
+	reallyWant?: boolean;
+	/** Purchase link. Without one, the name shows as plain text. */
+	link?: string;
 	/**
 	 * Product image. Save it in src/lib/assets/wish-images/ and import it above with the
 	 * `?enhanced&w=192;96` query, which sizes it for the 96px tile at 1x and 2x.
@@ -14,7 +18,12 @@ export type Wish = {
 
 /** The Wish List, in display order. Edit this array to change the published page. */
 export const wishList: Wish[] = [
-	{ name: 'Placeholder wish one', image: giftBox },
+	{
+		name: 'Placeholder wish one',
+		link: 'https://example.com/',
+		image: giftBox,
+		reallyWant: true
+	},
 	{ name: 'Placeholder wish two', image: waterBottle },
 	{ name: 'Placeholder wish three' }
 ];
