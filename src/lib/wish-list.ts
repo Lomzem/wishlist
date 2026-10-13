@@ -1,6 +1,11 @@
 import type { Picture } from '@sveltejs/enhanced-img';
-import giftBox from './assets/wish-images/placeholder-gift-box.png?enhanced&w=192;96';
-import waterBottle from './assets/wish-images/placeholder-water-bottle.png?enhanced&w=192;96';
+import couchPillows from './assets/wish-images/couch-pillows.jpg?enhanced&w=192;96';
+import headphoneStand from './assets/wish-images/headphone-stand.jpg?enhanced&w=192;96';
+import mushroomLamp from './assets/wish-images/mushroom-lamp.webp?enhanced&w=192;96';
+import sleepingPillow from './assets/wish-images/sleeping-pillow.webp?enhanced&w=192;96';
+
+const stockPhoto =
+	"The photo is just a stock image. It doesn't have to be this exact model or brand.";
 
 /** One thing Lawjay would like to receive. See GLOSSARY.md. */
 export type Wish = {
@@ -20,15 +25,14 @@ export type Wish = {
 
 /** The Wish List, in display order. Edit this array to change the published page. */
 export const wishList: Wish[] = [
+	{ name: 'Couch pillows', image: couchPillows, note: stockPhoto },
+	{ name: 'Headphone stand', image: headphoneStand, note: stockPhoto },
 	{
-		name: 'Placeholder wish one',
-		link: 'https://example.com/',
-		image: giftBox,
-		reallyWant: true,
-		note: `Placeholder note about wish one. Any colour is fine.
+		name: 'Cool looking lamp',
+		image: mushroomLamp,
+		note: `I think mushroom lamps look cool :)
 
-A second paragraph with more detail, long enough to wrap onto another line on a narrow phone.`
+${stockPhoto}`
 	},
-	{ name: 'Placeholder wish two', image: waterBottle },
-	{ name: 'Placeholder wish three' }
+	{ name: 'Quality sleeping pillow', image: sleepingPillow, note: stockPhoto }
 ];
