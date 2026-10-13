@@ -64,9 +64,9 @@
 									really want!
 								</Badge>
 							{/if}
-							{#if wish.note}
+							{#if wish.note?.trim()}
 								<div class="space-y-2 text-sm text-muted-foreground">
-									{#each wish.note.split(/\n\s*\n/) as paragraph, j (j)}
+									{#each wish.note.trim().split(/\n\s*\n/) as paragraph, j (j)}
 										<p>{paragraph}</p>
 									{/each}
 								</div>

@@ -54,18 +54,25 @@ describe('Wish List', () => {
 	test('exactly the Really Want Wishes show the "really want!" badge', () => {
 		const entries = wishElements();
 		entries.forEach((entry, i) => {
-			expect(text(entry).includes('really want!')).toBe(!!wishList[i].reallyWant);
+			const badges = [...entry.querySelectorAll('[data-slot="badge"]')];
+			expect(badges.map(text)).toEqual(wishList[i].reallyWant ? ['really want!'] : []);
 		});
 	});
 
 	test("a Wish's Note shows as its paragraphs, outside any link; a Wish without one shows none", () => {
 		const entries = wishElements();
 		entries.forEach((entry, i) => {
-			const paragraphs = [...entry.querySelectorAll('p')];
-			const expected =
-				wishList[i].note?.split(/\n\s*\n/).map((p) => p.replace(/\s+/g, ' ').trim()) ?? [];
-			expect(paragraphs.map(text)).toEqual(expected);
-			for (const p of paragraphs) expect(p.closest('a')).toBeNull();
+			const paragraphs = [...entry.querySelectorAll('p')].map((p) => {
+				expect(p.closest('a')).toBeNull();
+				return text(p);
+			});
+			const note = wishList[i].note?.trim() ?? '';
+			// All of the Note's text, and nothing else, appears in its paragraphs.
+			expect(paragraphs.join(' ')).toBe(note.replace(/\s+/g, ' '));
+			// Each blank line in the Note starts a new paragraph, and no paragraph is empty.
+			const blankLines = note.match(/\n\s*\n/g)?.length ?? 0;
+			expect(paragraphs.length).toBe(note ? blankLines + 1 : 0);
+			for (const paragraph of paragraphs) expect(paragraph).not.toBe('');
 		});
 	});
 
