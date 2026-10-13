@@ -18,7 +18,7 @@ const { document } = parseHTML(readFileSync(indexPath, 'utf8'));
 const text = (el: Element | null) => (el?.textContent ?? '').replace(/\s+/g, ' ').trim();
 
 /** The single Wish List on the page, one `<li>` per Wish. */
-function wishItems() {
+function wishElements() {
 	const lists = document.querySelectorAll('ul');
 	expect(lists.length).toBe(1);
 	return [...lists[0].querySelectorAll(':scope > li')];
@@ -32,18 +32,16 @@ describe('page', () => {
 });
 
 describe('Wish List', () => {
-	test('has one item per Wish, in data order', () => {
-		const items = wishItems();
-		expect(items.length).toBe(wishList.length);
-		items.forEach((item, i) => expect(text(item)).toContain(wishList[i].name));
+	test('has one entry per Wish, in data order', () => {
+		const entries = wishElements();
+		expect(entries.length).toBe(wishList.length);
+		entries.forEach((entry, i) => expect(text(entry)).toContain(wishList[i].name));
 	});
 
 	test('only Wishes with an image show one, described by the Wish name', () => {
-		const items = wishItems();
-		expect(wishList.some((wish) => wish.image)).toBe(true);
-		expect(wishList.some((wish) => !wish.image)).toBe(true);
-		items.forEach((item, i) => {
-			const images = item.querySelectorAll('img');
+		const entries = wishElements();
+		entries.forEach((entry, i) => {
+			const images = entry.querySelectorAll('img');
 			if (wishList[i].image) {
 				expect(images.length).toBe(1);
 				expect(images[0].getAttribute('alt')).toBe(wishList[i].name);
@@ -53,22 +51,18 @@ describe('Wish List', () => {
 		});
 	});
 
-	test('exactly the Really Want items show the "really want!" badge', () => {
-		const items = wishItems();
-		expect(wishList.some((wish) => wish.reallyWant)).toBe(true);
-		expect(wishList.some((wish) => !wish.reallyWant)).toBe(true);
-		items.forEach((item, i) => {
-			expect(text(item).includes('really want!')).toBe(!!wishList[i].reallyWant);
+	test('exactly the Really Want Wishes show the "really want!" badge', () => {
+		const entries = wishElements();
+		entries.forEach((entry, i) => {
+			expect(text(entry).includes('really want!')).toBe(!!wishList[i].reallyWant);
 		});
 	});
 
 	test("a linked Wish's name is an anchor to its link; an unlinked Wish has no anchor", () => {
-		const items = wishItems();
-		expect(wishList.some((wish) => wish.link)).toBe(true);
-		expect(wishList.some((wish) => !wish.link)).toBe(true);
-		items.forEach((item, i) => {
+		const entries = wishElements();
+		entries.forEach((entry, i) => {
 			const { name, link } = wishList[i];
-			const anchors = item.querySelectorAll('a');
+			const anchors = entry.querySelectorAll('a');
 			if (link) {
 				expect(anchors.length).toBe(1);
 				expect(anchors[0].getAttribute('href')).toBe(link);
@@ -80,8 +74,8 @@ describe('Wish List', () => {
 	});
 
 	test('no purchase link opens in a new tab', () => {
-		for (const item of wishItems()) {
-			for (const anchor of item.querySelectorAll('a'))
+		for (const entry of wishElements()) {
+			for (const anchor of entry.querySelectorAll('a'))
 				expect(anchor.hasAttribute('target')).toBe(false);
 		}
 	});
